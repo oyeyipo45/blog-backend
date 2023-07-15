@@ -6,6 +6,8 @@ import com.blog.backend.repository.PostRepository;
 import com.blog.backend.service.PostService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -31,5 +33,12 @@ public class PostServiceImpl implements PostService {
         response.setDescription(newPost.getDescription());
 
        return response;
+    }
+
+    public List<Post> getAllPosts() {
+
+        List<Post> posts =  postRepository.findAll();
+
+        return posts;
     }
 }
