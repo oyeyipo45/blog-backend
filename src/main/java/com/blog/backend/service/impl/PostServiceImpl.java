@@ -16,29 +16,45 @@ public class PostServiceImpl implements PostService {
     }
 
     final private PostRepository postRepository;
+
     @Override
     public PostDto createPost(PostDto postDto) {
 
+        Post post = mapPostDtoToEntity(postDto);
+        Post newPost = postRepository.save(post);
+
+        PostDto response = mapEntityToDto(newPost);
+        return response;
+    }
+
+    public List<Post> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts;
+    }
+
+    public Post getPostById(Long id) {
+        Post post = postRepository.getOne(id);
+        return post;
+    }
+
+
+    private PostDto mapEntityToDto(Post post){
+        PostDto response = new PostDto();
+        response.setId(post.getId());
+        response.setTitle(post.getTitle());
+        response.setContent(post.getContent());
+        response.setDescription(post.getDescription());
+
+        return response;
+    }
+
+
+    private Post mapPostDtoToEntity(PostDto postDto) {
         Post post = new Post();
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setDescription(postDto.getDescription());
-
-       Post newPost =  postRepository.save(post);
-
-       PostDto response = new PostDto();
-        response.setId(newPost.getId());
-        response.setTitle(newPost.getTitle());
-        response.setContent(newPost.getContent());
-        response.setDescription(newPost.getDescription());
-
-       return response;
+        return post;
     }
 
-    public List<Post> getAllPosts() {
-
-        List<Post> posts =  postRepository.findAll();
-
-        return posts;
-    }
 }
