@@ -7,6 +7,7 @@ import com.blog.backend.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -27,9 +28,9 @@ public class PostServiceImpl implements PostService {
         return response;
     }
 
-    public List<Post> getAllPosts() {
+    public List<PostDto> getAllPosts() {
         List<Post> posts = postRepository.findAll();
-        return posts;
+        return posts.stream().map(post -> mapEntityToDto(post)).collect(Collectors.toList());
     }
 
     public Post getPostById(Long id) {
